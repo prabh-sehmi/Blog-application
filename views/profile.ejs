@@ -6,79 +6,102 @@
 <title>Profile</title>
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
-
+<link rel="stylesheet" href="/css/style.css">
 </head>
 
-<body style="background:#0f0f12; min-height:100vh; font-family:Arial, sans-serif; color:white; display:flex; justify-content:center; padding-top:60px;">
+<body style="background:#0f0f12; font-family:Arial, sans-serif; color:white; margin:0;">
 
-    <div style="width:600px;">
+<div style="max-width:600px; margin:0 auto; padding:60px 20px;">
 
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:25px;">
-        <h3 style="margin:0;">Hello, <%= user.name %></h3>
-        <a href="/logout" style="text-decoration:none; color:#ef4444; font-size:14px;">Logout</a>
-        </div>
+    <!-- 🔷 PROFILE HEADER -->
+    <div style="background:#1f1f23; padding:20px; border-radius:12px; margin-bottom:25px;">
 
-        <div style="background:#1f1f23; padding:20px; border-radius:10px; margin-bottom:30px; box-shadow:0 10px 25px rgba(0,0,0,0.3);">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
 
-            <h5 style="margin-bottom:15px;">Create new post</h5>
+            <div style="display:flex; align-items:center; gap:15px;">
+                
+                <img 
+                    src="<%= user.profilepic ? '/images/uploads/' + user.profilepic : 'https://via.placeholder.com/60' %>" 
+                    style="width:60px; height:60px; border-radius:50%; object-fit:cover; border:2px solid #2563eb;"
+                >
 
-            <form method="post" action="/post">
-
-                <textarea 
-                    placeholder="What's on your mind?"
-                    name="content"
-                    style="width:100%; height:100px; background:#2a2a2e; border:none; border-radius:8px; padding:10px; color:white; resize:none; margin-bottom:15px;"
-                    ></textarea>
-
-                <input 
-                    type="submit" 
-                    value="Create Post"
-                    style="background:#2563eb; border:none; padding:8px 15px; border-radius:6px; color:white; cursor:pointer;"
-                    >
-
-            </form>
-
-        </div>
-
-
-        <h4 style="margin-bottom:15px;">Your Posts</h4>
-        <% user.posts.reverse().forEach(function(post){ %>
-            <div class="postcontainer">
-
-            <div style="background:#1f1f23; padding:20px; border-radius:10px; margin-bottom:15px; box-shadow:0 10px 25px rgba(0,0,0,0.3);">
-
-                <h5 style="margin-bottom:8px;">@<%= user.username %></h5>
-
-                <p style="color:#a1a1aa; line-height:1.5;">
-                <%= post.content %>
-                </p>
-
-                <div style="display:flex; gap:20px; margin-top:15px;">
-
-                    <small><%= post.likes.length %> likes</small>
-
-                    <a href="/like/<%= post._id %>" style="text-decoration:none; color:#3b82f6;">
-                        <%= post.likes.indexOf(user._id) === -1 ? "Like" : "Unlike" %>
-                    </a>
-
-                    <a href="/edit/<%= post._id %>" style="text-decoration:none; color:#f59e0b;">Edit</a>
-
+                <div>
+                    <h4 style="margin:0;">Hello, <%= user.name %></h4>
+                    <small style="color:#9ca3af;">@<%= user.username %></small>
                 </div>
 
-                
+            </div>
 
-             </div>
+            <a href="/profile/upload" 
+               style="background:#2563eb; padding:8px 12px; border-radius:6px; text-decoration:none; color:white; font-size:14px;">
+                Update Photo
+            </a>
 
         </div>
-        <% })%>    
-        
-                
+
+        <!-- Logout -->
+        <div style="margin-top:15px; text-align:right;">
+            <a href="/logout" style="color:#ef4444; text-decoration:none; font-size:14px;">
+                Logout
+            </a>
+        </div>
+
+    </div>
+
+    <!-- 🔷 CREATE POST -->
+    <div style="background:#1f1f23; padding:20px; border-radius:12px; margin-bottom:30px;">
+
+        <h5>Create new post</h5>
+
+        <form method="post" action="/post">
+
+            <textarea 
+                name="content"
+                placeholder="What's on your mind?"
+                style="width:100%; height:100px; background:#2a2a2e; border:none; border-radius:8px; padding:10px; color:white; margin-bottom:15px;"
+            ></textarea>
+
+            <button 
+                style="background:#2563eb; border:none; padding:10px 15px; border-radius:6px; color:white;">
+                Create Post
+            </button>
+
+        </form>
+
+    </div>
+
+    <!-- 🔷 POSTS -->
+    <h4 style="margin-bottom:15px;">Your Posts</h4>
+
+    <% user.posts.reverse().forEach(function(post){ %>
+
+        <div style="background:#1f1f23; padding:20px; border-radius:12px; margin-bottom:15px;">
+
+            <h6>@<%= user.username %></h6>
+
+            <p style="color:#a1a1aa;">
+                <%= post.content %>
+            </p>
+
+            <div style="display:flex; gap:15px; align-items:center;">
+
+                <small><%= post.likes.length %> likes</small>
+
+                <a href="/like/<%= post._id %>" style="color:#3b82f6; text-decoration:none;">
+                    <%= post.likes.indexOf(user._id) === -1 ? "Like" : "Unlike" %>
+                </a>
+
+                <a href="/edit/<%= post._id %>" style="color:#f59e0b; text-decoration:none;">
+                    Edit
+                </a>
 
             </div>
 
         </div>
 
-    </div>
+    <% }) %>
+
+</div>
 
 </body>
 </html>
