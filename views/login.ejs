@@ -32,6 +32,18 @@ style="width:100%; padding:10px; border:none; border-radius:6px; background:#256
 
 </form>
 
+<script>
+  window.onload = function () {
+    const params = new URLSearchParams(window.location.search);
+    const message = params.get("message");
+
+    console.log("MSG:", message); // 👈 debug
+
+    if (message) {
+      alert(message);
+    }
+  };
+</script>
 </div>
 
 </body>
